@@ -1,27 +1,16 @@
-const { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes } = require('./iss');
-const ip = '75.154.249.4762';
-const coords = { latitude: '50', longitude: '-122.95440' };
-fetchMyIP((err, ip) => {
-  if (err) {
-    console.log("Houston, we have a problem", err);
-    return;
-  }
-  console.log("It worked and returned IP: ", ip);
-  return ip;
-});
+// index.js
 
-fetchCoordsByIP(ip, (err, data)  => {
-  if (err) {
-    console.log(err, data);
-    return;
-  }
-  console.log(data);
-});
 
-fetchISSFlyOverTimes(coords, (err, data) => {
-  if (err) {
-    console.log(err, data);
+// The code below is temporary and can be commented out.
+const { fetchISSFlyOverTimes } = require('./iss');
+
+const exampleCoords = { latitude: '49.27670', longitude: '-123.13000' };
+
+fetchISSFlyOverTimes(exampleCoords, (error, passTimes) => {
+  if (error) {
+    console.log("It didn't work!" , error);
     return;
   }
-  console.log(data)
-})
+
+  console.log('It worked! Returned flyover times:' , passTimes);
+});
