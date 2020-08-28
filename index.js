@@ -1,6 +1,5 @@
 const { fetchMyIP, fetchCoordsByIP } = require('./iss');
-const ip = '``75.154.249.42``';
-
+const ip = '75.154.249.4762';
 fetchMyIP((err, ip) => {
   if (err) {
     console.log("Houston, we have a problem", err);
