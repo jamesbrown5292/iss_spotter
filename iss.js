@@ -8,10 +8,10 @@
  */
 const request = require('request');
 // use request to fetch IP address from JSON API
-let url = 'https://api.ipify.org?format=json';
+
 const fetchMyIP = function(callback) {
   //go to the ipify API and request my url
-  request(url, (error, response, body) => {
+  request('https://api.ipify.org?format=json', (error, response, body) => {
     if (error, null) {
       callback(error);
       return;
@@ -19,11 +19,26 @@ const fetchMyIP = function(callback) {
       let msg = `Status Code ${response.statusCode} when fetching IP. Response: ${body}`;
       callback(Error(msg), null);
       return;
-    } else {
-      let ip = JSON.parse(body).ip;
-      callback(null, ip);
     }
+    const ip = JSON.parse(body).ip;
+    callback(null, ip);
+  });
+};
+const fetchCoordsByIP = function(ip, callback) {
+
+  request('https://ipvigilante.com/8.8.8.8', (err, response, body) => {
+    if (err) {
+      callback(err, null);
+    } else if (response.statusCode !== 200) {
+      `Status Code ${response.statusCode} when fetching IP. Response: ${body}`;
+    }
+    const locationInfo = JSON.parse(body);
+    let returnObject = {};
+    returnObject["latitude"] = locationInfo.data.latitude;
+    returnObject["longitude"] = locationInfo.data.longitude;
+    callback(null, returnObject);
   });
 };
 
-module.exports = { fetchMyIP };
+
+module.exports = { fetchMyIP, fetchCoordsByIP };
